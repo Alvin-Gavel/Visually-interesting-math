@@ -1,12 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-from matplotlib.pyplot import figure
 
-def make_multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
-   """
-   Plots the Mandelbrot set, or a generalisation with arbitrary exponent d.
-   """
+def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
    if plot_folder_path[-1] != '/':
       plot_folder_path += '/'
    
@@ -27,8 +23,17 @@ def make_multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2]
    for i in range(iterations):
       diverged = np.abs(z) > 2
       not_diverged = np.logical_not(diverged)      
-      z[not_diverged] = z[not_diverged]**d + complex_plane[not_diverged]
+      z[not_diverged] = function(z[not_diverged]) + complex_plane[not_diverged]
       divergence_time[diverged] = np.minimum(divergence_time[diverged], i)
+   return real_axis, imag_axis, divergence_time
+
+def make_multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
+   """
+   Plots the Mandelbrot set, or a generalisation with arbitrary exponent d.
+   """
+   multibrot_function = lambda complex_plane : complex_plane**d
+
+   real_axis, imag_axis, divergence_time = divergence_fractal(multibrot_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
 
    plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
    plt.axis('off')
