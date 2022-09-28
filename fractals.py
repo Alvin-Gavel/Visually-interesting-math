@@ -27,8 +27,27 @@ def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 1
 def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
    plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
    plt.axis('off')
-   plt.savefig(plot_path, format = 'png', bbox_inches = 'tight', dpi=100)
+   fig = plt.gcf()
+
+   # May adjust later
+   approx_screen_height = 14.   
+   for optimise_width in [True, False]:
+      if optimise_width:
+         real_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 0)))[0]
+         imag_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 1)))[0]
+         x_left, x_right = real_axis[real_convergence_sum[0]], real_axis[real_convergence_sum[-1]]
+         y_low, y_high = imag_axis[imag_convergence_sum[0]], imag_axis[imag_convergence_sum[-1]]
+      else:
+         x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
+      fig.set_size_inches((x_right-x_left)/(y_high-y_low) * approx_screen_height, approx_screen_height)
+      plt.xlim(x_left, x_right)
+      plt.ylim(y_low, y_high)
+
+      if not optimise_width:
+         plot_path += "_fixed_width"
+      plt.savefig('{}.png'.format(plot_path), format = 'png', bbox_inches = 'tight', dpi=100)
    plt.close()
+
    return
 
 def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
@@ -40,11 +59,9 @@ def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
    
    multibrot_function = lambda z : z**d
    real_axis, imag_axis, divergence_time = divergence_fractal(multibrot_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}.png".format(plot_folder_path, d))
+   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}".format(plot_folder_path, d))
    return
 
-
-   
 def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
    Plots the Mandelbar set, or a generalisation with arbitrary exponent d.
