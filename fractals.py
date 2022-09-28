@@ -24,6 +24,13 @@ def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 1
       divergence_time[diverged] = np.minimum(divergence_time[diverged], i)
    return real_axis, imag_axis, divergence_time
 
+def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
+   plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
+   plt.axis('off')
+   plt.savefig(plot_path, format = 'png', bbox_inches = 'tight', dpi=100)
+   plt.close()
+   return
+
 def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
    Plots the Mandelbrot set, or a generalisation with arbitrary exponent d.
@@ -33,12 +40,10 @@ def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
    
    multibrot_function = lambda z : z**d
    real_axis, imag_axis, divergence_time = divergence_fractal(multibrot_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-
-   plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
-   plt.axis('off')
-   plt.savefig("{}multibrot_{}.png".format(plot_folder_path, d), format = 'png', bbox_inches = 'tight', dpi=100)
-   plt.close()
+   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}.png".format(plot_folder_path, d))
    return
+
+
    
 def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
@@ -49,25 +54,17 @@ def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
       
    mandelbar_function = lambda z : np.conjugate(z)**d
    real_axis, imag_axis, divergence_time = divergence_fractal(mandelbar_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-
-   plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
-   plt.axis('off')
-   plt.savefig("{}mandelbar_{}.png".format(plot_folder_path, d), format = 'png', bbox_inches = 'tight', dpi=100)
-   plt.close()
+   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}.png".format(plot_folder_path, d))
    return
    
-def burning_ship(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
+def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
-   Plots the Mandelbar set, or a generalisation with arbitrary exponent d.
+   Plots the Burning ship fractal
    """
    if plot_folder_path[-1] != '/':
       plot_folder_path += '/'
       
-   burning_ship_function = lambda z : (np.abs(np.real(z)) + 1j * np.abs(np.imag(z)))**d
+   burning_ship_function = lambda z : (np.abs(np.real(z)) + 1j * np.abs(np.imag(z)))**2
    real_axis, imag_axis, divergence_time = divergence_fractal(burning_ship_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-
-   plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
-   plt.axis('off')
-   plt.savefig("{}burning_ship_{}.png".format(plot_folder_path, d), format = 'png', bbox_inches = 'tight', dpi=100)
-   plt.close()
+   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship.png".format(plot_folder_path))
    return
