@@ -47,7 +47,6 @@ def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
          plot_path += "_fixed_width"
       plt.savefig('{}.png'.format(plot_path), format = 'png', bbox_inches = 'tight', dpi=100)
    plt.close()
-
    return
 
 def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
@@ -71,7 +70,7 @@ def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
       
    mandelbar_function = lambda z : np.conjugate(z)**d
    real_axis, imag_axis, divergence_time = divergence_fractal(mandelbar_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}.png".format(plot_folder_path, d))
+   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}".format(plot_folder_path, d))
    return
    
 def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
@@ -83,5 +82,5 @@ def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps
       
    burning_ship_function = lambda z : (np.abs(np.real(z)) + 1j * np.abs(np.imag(z)))**2
    real_axis, imag_axis, divergence_time = divergence_fractal(burning_ship_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship.png".format(plot_folder_path))
+   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship".format(plot_folder_path))
    return
