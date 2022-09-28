@@ -43,7 +43,7 @@ def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
    
 def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
-   Plots the Mandelbrot set, or a generalisation with arbitrary exponent d.
+   Plots the Mandelbar set, or a generalisation with arbitrary exponent d.
    """
    if plot_folder_path[-1] != '/':
       plot_folder_path += '/'
