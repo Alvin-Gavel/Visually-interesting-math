@@ -1,8 +1,22 @@
+"""
+This module is written for my own amusement. It contains a couple of
+functions for plotting fractals. Some of the algorithms are taken from
+the book The Science of Fractal Images.
+
+Written by Alvin Gavel,
+
+https://github.com/Alvin-Gavel/Demodigi
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
 def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
+   """
+   Given a function, plot which regions of the complex plane diverge
+   under repeated iteration and which ones do no.
+   """
    # If we have symmetric intervals, we want to make sure that the real
    # and imaginary axes are plotted.
    if abs(x_range[0]) == abs(x_range[1]):
