@@ -14,8 +14,8 @@ from matplotlib.colors import LogNorm
 
 def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
    """
-   Given a function, plot which regions of the complex plane diverge
-   under repeated iteration and which ones do not.
+   Given a function f(z), plot which points c on the complex plane diverge
+   under repeated iteration of f_n(z) = f_n-1(z) + c, f_0 = c.
    """
    # If we have symmetric intervals, we want to make sure that the real
    # and imaginary axes are plotted.
