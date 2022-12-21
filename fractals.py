@@ -13,6 +13,14 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from matplotlib.colors import ListedColormap
 
+_length = 1000
+_rgb_array = np.zeros((_length, 4))
+_rgb_array[:,0] = np.linspace(0, 1, _length)
+_rgb_array[:,1] = np.linspace(0, 0.9, _length)
+_rgb_array[:,3] = 1
+_YlBl = ListedColormap(_rgb_array, name = 'YlBl')
+
+
 def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
    """
    Given a function f(z), plot which points c on the complex plane diverge
@@ -46,7 +54,7 @@ def standard_plot(real_axis, imag_axis, divergence_time, plot_path, color = Fals
       newcolors[:,0] = np.linspace(0, 1, length)
       newcolors[:,1] = np.linspace(0, 0.9, length)
       newcolors[:,3] = 1
-      cmap = ListedColormap(newcolors, name = 'YlBl')
+      cmap = _YlBl
    else:
       cmap = 'gist_gray'
    if color:
