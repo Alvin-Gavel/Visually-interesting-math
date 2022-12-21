@@ -34,7 +34,6 @@ def _adjust_steps(p_range, p_steps):
       p_steps += (p_steps + 1) % 2
    return p_steps
 
-
 def _make_complex_plane(real_axis, imag_axis):
    complex_plane = np.meshgrid(real_axis, imag_axis)
    complex_plane = np.asarray(complex_plane)   
@@ -95,7 +94,7 @@ def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 1
    z = np.zeros((x_steps, y_steps), dtype = np.clongdouble)
    divergence_time = np.ones((x_steps, y_steps), dtype = np.longdouble) * np.inf
    
-   for i in range(iterations):
+   for i in range(1, iterations+1):
       diverged = np.abs(z) > 2
       not_diverged = np.logical_not(diverged)      
       z[not_diverged] = function(z[not_diverged]) + complex_plane[not_diverged]
@@ -149,7 +148,7 @@ def normal_julia(plot_folder_path, c = 0.0, x_range = [-2, 2], y_range = [-2, 2]
    divergence_radius = 1./2 + np.sqrt(1./4 + np.sqrt(c) + np.abs(z))
 
    divergence_time = np.ones((x_steps, y_steps), dtype = np.longdouble) * np.inf      
-   for i in range(iterations):
+   for i in range(1, iterations+1):
       diverged = np.abs(z) > divergence_radius
       not_diverged = np.logical_not(diverged)      
       z[not_diverged] = z[not_diverged]**2 + c
