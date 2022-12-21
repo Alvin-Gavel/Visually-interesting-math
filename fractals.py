@@ -44,12 +44,12 @@ def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
    # May adjust later
    approx_screen_height = 14.   
    for color in [True, False]:
-      for blank_diverged in [True, False]:
+      for blank_undiverged in [True, False]:
       
          plt.axis('off')
          fig = plt.gcf()
          
-         if blank_diverged:
+         if blank_undiverged:
             mask = np.where(np.isinf(divergence_time))
             plot_array = np.copy(divergence_time)
             plot_array[mask] = 1
@@ -82,8 +82,8 @@ def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
                this_plot_path += '-fixed_width'
             if color:
                this_plot_path += '-color'
-            if blank_diverged:
-               this_plot_path += '-diverged_blanked'
+            if blank_undiverged:
+               this_plot_path += '-undiverged_blanked'
             plt.savefig('{}.png'.format(this_plot_path), format = 'png', bbox_inches = 'tight', dpi=400)
          plt.close()
    return
