@@ -44,40 +44,48 @@ def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
    # May adjust later
    approx_screen_height = 14.   
    for color in [True, False]:
+      for blank_diverged in [True, False]:
       
-      plt.axis('off')
-      fig = plt.gcf()
-      if color:
-         mask = np.where(np.isinf(divergence_time))
-         masked = np.copy(divergence_time)
-         masked[mask] = 1
-         plt.pcolormesh(real_axis, imag_axis, masked, shading = 'nearest', cmap = _YlBl)
-      else:
-         plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
-   
-      for optimise_width in [True, False]:
-         if optimise_width:
-            real_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 0)))[0]
-            imag_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 1)))[0]
-            if len(real_convergence_sum) != 0:
-               x_left, x_right = real_axis[real_convergence_sum[0]], real_axis[real_convergence_sum[-1]]
-               y_low, y_high = imag_axis[imag_convergence_sum[0]], imag_axis[imag_convergence_sum[-1]]   
-            else:
-               print('Converged nowhere!')
-               x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
+         plt.axis('off')
+         fig = plt.gcf()
+         
+         if blank_diverged:
+            mask = np.where(np.isinf(divergence_time))
+            plot_array = np.copy(divergence_time)
+            plot_array[mask] = 1
          else:
-            x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
-         fig.set_size_inches((x_right-x_left)/(y_high-y_low) * approx_screen_height, approx_screen_height)
-         plt.xlim(x_left, x_right)
-         plt.ylim(y_low, y_high)
-
-         this_plot_path = plot_path
-         if not optimise_width:
-            this_plot_path += '_fixed_width'
+            plot_array = divergence_time
+         
          if color:
-            this_plot_path += '_color'
-         plt.savefig('{}.png'.format(this_plot_path), format = 'png', bbox_inches = 'tight', dpi=400)
-      plt.close()
+            plt.pcolormesh(real_axis, imag_axis, plot_array, shading = 'nearest', cmap = _YlBl)
+         else:
+            plt.pcolormesh(real_axis, imag_axis, plot_array, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
+   
+         for optimise_width in [True, False]:
+            if optimise_width:
+               real_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 0)))[0]
+               imag_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 1)))[0]
+               if len(real_convergence_sum) != 0:
+                  x_left, x_right = real_axis[real_convergence_sum[0]], real_axis[real_convergence_sum[-1]]
+                  y_low, y_high = imag_axis[imag_convergence_sum[0]], imag_axis[imag_convergence_sum[-1]]   
+               else:
+                  print('Converged nowhere!')
+                  x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
+            else:
+               x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
+            fig.set_size_inches((x_right-x_left)/(y_high-y_low) * approx_screen_height, approx_screen_height)
+            plt.xlim(x_left, x_right)
+            plt.ylim(y_low, y_high)
+
+            this_plot_path = plot_path
+            if not optimise_width:
+               this_plot_path += '-fixed_width'
+            if color:
+               this_plot_path += '-color'
+            if blank_diverged:
+               this_plot_path += '-diverged_blanked'
+            plt.savefig('{}.png'.format(this_plot_path), format = 'png', bbox_inches = 'tight', dpi=400)
+         plt.close()
    return
 
 def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
