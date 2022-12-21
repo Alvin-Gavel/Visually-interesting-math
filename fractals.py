@@ -43,11 +43,6 @@ def _make_complex_plane(real_axis, imag_axis):
 
 def standard_plot(real_axis, imag_axis, divergence_time, plot_path, color = False):
    if color:
-      length = 1000
-      newcolors = np.zeros((length, 4))
-      newcolors[:,0] = np.linspace(0, 1, length)
-      newcolors[:,1] = np.linspace(0, 0.9, length)
-      newcolors[:,3] = 1
       cmap = _YlBl
    else:
       cmap = 'gist_gray'
