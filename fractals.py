@@ -41,45 +41,44 @@ def _make_complex_plane(real_axis, imag_axis):
    complex_plane = complex_plane[0,:,:] + 1j * complex_plane[1,:,:]
    return complex_plane
 
-def standard_plot(real_axis, imag_axis, divergence_time, plot_path, color = False):
-   if color:
-      cmap = _YlBl
-   else:
-      cmap = 'gist_gray'
-   if color:
-      mask = np.where(np.isinf(divergence_time))
-      masked = np.copy(divergence_time)
-      masked[mask] = 1
-      plt.pcolormesh(real_axis, imag_axis, masked, shading = 'nearest', cmap = cmap)
-   else:
-      plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = cmap, norm=LogNorm())
-   plt.axis('off')
-   fig = plt.gcf()
-
+def standard_plot(real_axis, imag_axis, divergence_time, plot_path):
    # May adjust later
    approx_screen_height = 14.   
-   for optimise_width in [True, False]:
-      if optimise_width:
-         real_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 0)))[0]
-         imag_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 1)))[0]
-         if len(real_convergence_sum) != 0:
-            x_left, x_right = real_axis[real_convergence_sum[0]], real_axis[real_convergence_sum[-1]]
-            y_low, y_high = imag_axis[imag_convergence_sum[0]], imag_axis[imag_convergence_sum[-1]]
-         else:
-            print('Converged nowhere!')
-            x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
-      else:
-         x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
-      fig.set_size_inches((x_right-x_left)/(y_high-y_low) * approx_screen_height, approx_screen_height)
-      plt.xlim(x_left, x_right)
-      plt.ylim(y_low, y_high)
-
-      if not optimise_width:
-         plot_path += '_fixed_width'
+   for color in [True, False]:
+      
+      plt.axis('off')
+      fig = plt.gcf()
       if color:
-         plot_path += '_color'
-      plt.savefig('{}.png'.format(plot_path), format = 'png', bbox_inches = 'tight', dpi=400)
-   plt.close()
+         mask = np.where(np.isinf(divergence_time))
+         masked = np.copy(divergence_time)
+         masked[mask] = 1
+         plt.pcolormesh(real_axis, imag_axis, masked, shading = 'nearest', cmap = _YlBl)
+      else:
+         plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = 'gist_gray', norm=LogNorm())
+   
+      for optimise_width in [True, False]:
+         if optimise_width:
+            real_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 0)))[0]
+            imag_convergence_sum = np.where(np.isinf(np.sum(divergence_time, 1)))[0]
+            if len(real_convergence_sum) != 0:
+               x_left, x_right = real_axis[real_convergence_sum[0]], real_axis[real_convergence_sum[-1]]
+               y_low, y_high = imag_axis[imag_convergence_sum[0]], imag_axis[imag_convergence_sum[-1]]   
+            else:
+               print('Converged nowhere!')
+               x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
+         else:
+            x_left, x_right, y_low, y_high = real_axis[0], real_axis[-1], imag_axis[0], imag_axis[-1]
+         fig.set_size_inches((x_right-x_left)/(y_high-y_low) * approx_screen_height, approx_screen_height)
+         plt.xlim(x_left, x_right)
+         plt.ylim(y_low, y_high)
+
+         this_plot_path = plot_path
+         if not optimise_width:
+            this_plot_path += '_fixed_width'
+         if color:
+            this_plot_path += '_color'
+         plt.savefig('{}.png'.format(this_plot_path), format = 'png', bbox_inches = 'tight', dpi=400)
+      plt.close()
    return
 
 def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
@@ -103,7 +102,7 @@ def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 1
       divergence_time[diverged] = np.minimum(divergence_time[diverged], i)
    return real_axis, imag_axis, divergence_time
 
-def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
+def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
    Plots the Mandelbrot set, or a generalisation with arbitrary exponent d.
    """
@@ -111,10 +110,10 @@ def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
    
    multibrot_function = lambda z : z**d
    real_axis, imag_axis, divergence_time = divergence_fractal(multibrot_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}".format(plot_folder_path, d), color = color)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}".format(plot_folder_path, d))
    return
 
-def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
+def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
    Plots the Mandelbar set, or a generalisation with arbitrary exponent d.
    """
@@ -122,10 +121,10 @@ def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
       
    mandelbar_function = lambda z : np.conjugate(z)**d
    real_axis, imag_axis, divergence_time = divergence_fractal(mandelbar_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}".format(plot_folder_path, d), color = color)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}".format(plot_folder_path, d))
    return
    
-def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
+def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
    Plots the Burning ship fractal
    """
@@ -133,10 +132,10 @@ def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps
       
    burning_ship_function = lambda z : (np.abs(np.real(z)) + 1j * np.abs(np.imag(z)))**2
    real_axis, imag_axis, divergence_time = divergence_fractal(burning_ship_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship".format(plot_folder_path), color = color)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship".format(plot_folder_path))
    return
    
-def normal_julia(plot_folder_path, c = 0.0, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
+def normal_julia(plot_folder_path, c = 0.0, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100):
    """
    Using the default value of c will produce a unit circle.
    """
@@ -155,5 +154,5 @@ def normal_julia(plot_folder_path, c = 0.0, x_range = [-2, 2], y_range = [-2, 2]
       not_diverged = np.logical_not(diverged)      
       z[not_diverged] = z[not_diverged]**2 + c
       divergence_time[diverged] = np.minimum(divergence_time[diverged], i)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}normal_julia".format(plot_folder_path), color = color)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}normal_julia".format(plot_folder_path))
    return
