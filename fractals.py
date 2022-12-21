@@ -11,6 +11,7 @@ https://github.com/Alvin-Gavel/Demodigi
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+from matplotlib.colors import ListedColormap
 
 def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 101, y_steps = 101, iterations = 100):
    """
@@ -38,12 +39,23 @@ def divergence_fractal(function, plot_folder_path, x_range, y_range, x_steps = 1
       divergence_time[diverged] = np.minimum(divergence_time[diverged], i)
    return real_axis, imag_axis, divergence_time
 
-def standard_plot(real_axis, imag_axis, divergence_time, plot_path, colour = False):
-   if colour:
-      cmap = 'inferno'
+def standard_plot(real_axis, imag_axis, divergence_time, plot_path, color = False):
+   if color:
+      length = 1000
+      newcolors = np.zeros((length, 4))
+      newcolors[:,0] = np.linspace(0, 1, length)
+      newcolors[:,1] = np.linspace(0, 0.9, length)
+      newcolors[:,3] = 1
+      cmap = ListedColormap(newcolors, name = 'YlBl')
    else:
       cmap = 'gist_gray'
-   plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = cmap, norm=LogNorm())
+   if color:
+      mask = np.where(np.isinf(divergence_time))
+      masked = np.copy(divergence_time)
+      masked[mask] = 1
+      plt.pcolormesh(real_axis, imag_axis, masked, shading = 'nearest', cmap = cmap)
+   else:
+      plt.pcolormesh(real_axis, imag_axis, divergence_time, shading = 'nearest', cmap = cmap, norm=LogNorm())
    plt.axis('off')
    fig = plt.gcf()
 
@@ -63,13 +75,13 @@ def standard_plot(real_axis, imag_axis, divergence_time, plot_path, colour = Fal
 
       if not optimise_width:
          plot_path += '_fixed_width'
-      if colour:
-         plot_path += '_colour'
-      plt.savefig('{}.png'.format(plot_path), format = 'png', bbox_inches = 'tight', dpi=100)
+      if color:
+         plot_path += '_color'
+      plt.savefig('{}.png'.format(plot_path), format = 'png', bbox_inches = 'tight', dpi=400)
    plt.close()
    return
 
-def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, colour = False):
+def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
    """
    Plots the Mandelbrot set, or a generalisation with arbitrary exponent d.
    """
@@ -78,10 +90,10 @@ def multibrot(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
    
    multibrot_function = lambda z : z**d
    real_axis, imag_axis, divergence_time = divergence_fractal(multibrot_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}".format(plot_folder_path, d), colour = colour)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}multibrot_{}".format(plot_folder_path, d), color = color)
    return
 
-def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, colour = False):
+def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
    """
    Plots the Mandelbar set, or a generalisation with arbitrary exponent d.
    """
@@ -90,10 +102,10 @@ def mandelbar(plot_folder_path, d = 2, x_range = [-2, 2], y_range = [-2, 2], x_s
       
    mandelbar_function = lambda z : np.conjugate(z)**d
    real_axis, imag_axis, divergence_time = divergence_fractal(mandelbar_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}".format(plot_folder_path, d), colour = colour)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}mandelbar_{}".format(plot_folder_path, d), color = color)
    return
    
-def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, colour = False):
+def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps = 101, y_steps = 101, iterations = 100, color = False):
    """
    Plots the Burning ship fractal
    """
@@ -102,5 +114,5 @@ def burning_ship(plot_folder_path, x_range = [-2, 2], y_range = [-2, 2], x_steps
       
    burning_ship_function = lambda z : (np.abs(np.real(z)) + 1j * np.abs(np.imag(z)))**2
    real_axis, imag_axis, divergence_time = divergence_fractal(burning_ship_function, plot_folder_path, x_range, y_range, x_steps = x_steps, y_steps = y_steps, iterations = iterations)
-   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship".format(plot_folder_path), colour = colour)
+   standard_plot(real_axis, imag_axis, divergence_time, "{}burning_ship".format(plot_folder_path), color = color)
    return
