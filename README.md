@@ -4,10 +4,14 @@ The current contents of the repository are:
 
 `README.md`: This text
 
-`fractals.py`: A module for plotting fractals, such as the Mandelbrot set.
+`fractals.py`: Module for plotting fractals, such as the Mandelbrot set.
 
-`fractals_test_script.py`: A script demonstrating how to use the module.
+`fractals_test_script.py`: Script demonstrating how to use the module.
 
-`star_polygons.py`: A module for plotting star polygons. That is, the general type of shape that pentagrams and David's stars are examples of.
+`spirographs.py`: Module for plotting spirograph patterns.
 
-`star_polygons_test_script.py`: A script demonstrating how to use the module.
+`spirographs_test_script.py`: Script demonstrating how to use the module.
+
+`star_polygons.py`: Module for plotting star polygons. That is, the general type of shape that pentagrams and David's stars are examples of.
+
+`star_polygons_test_script.py`: Script demonstrating how to use the module.
