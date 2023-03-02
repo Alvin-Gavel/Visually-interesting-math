@@ -1,6 +1,6 @@
 import os
 
-import fractals
+import fractals as fr
 
 sidelength = 1001
 iterations = 100
@@ -16,19 +16,19 @@ for folder in [main_folder, mandelbrot_folder, mandelbar_folder, ship_folder, ju
    except FileExistsError:
       pass
 
-mandelbrot = fractals.multibrot('Mandelbrot', mandelbrot_folder, d = 2, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
+mandelbrot = fr.multibrot('Mandelbrot', mandelbrot_folder, d = 2, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
 mandelbrot.run()
 mandelbrot.plot_all()
 
-mandelbar = fractals.mandelbar('Mandelbar', mandelbar_folder, d = 2, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
+mandelbar = fr.mandelbar('Mandelbar', mandelbar_folder, d = 2, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
 mandelbar.run()
 mandelbar.plot_all()
 
-ship = fractals.burning_ship('Burning_ship', ship_folder, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
+ship = fr.burning_ship('Burning_ship', ship_folder, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
 ship.run()
 ship.plot_all()
 
 # Value of c borrowed from https://commons.wikimedia.org/wiki/File:Julia_set,_plotted_with_Matplotlib.svg
-julia = fractals.normal_julia('Julia', julia_folder, c = -0.512511498387847167 + 0.521295573094847167j, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
+julia = fr.normal_julia('Julia', julia_folder, c = -0.512511498387847167 + 0.521295573094847167j, x_steps = sidelength, y_steps = sidelength, iterations = iterations)
 julia.run()
 julia.plot_all()

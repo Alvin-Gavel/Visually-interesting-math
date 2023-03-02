@@ -4,6 +4,8 @@ The current contents of the repository are:
 
 `README.md`: This text
 
+`requirements.txt`: File listing the Python modules that must be installed to run the code in this repository, and which versions it was tested on.
+
 `fractals.py`: Module for plotting fractals, such as the Mandelbrot set.
 
 `fractals_test_script.py`: Script demonstrating how to use the module.
@@ -19,3 +21,4 @@ The current contents of the repository are:
 `ulam_spiral.py`: Module for plotting the Ulam spiral.
 
 `ulam_spiral_test_script.py`: Script demonstrating how to use the module.
+
