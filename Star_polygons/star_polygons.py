@@ -5,8 +5,8 @@ def make_xy(n, radius = 1, start_angle = 0):
    angles = start_angle + (2 * np.pi / n) * np.arange(0, n)
    return np.cos(angles) * radius, np.sin(angles) * radius  
 
-def figure_dimensions():
-   x_left, x_right, y_low, y_high = -1.05, 1.05, -1.05, 1.05
+def figure_dimensions(r):
+   x_left, x_right, y_low, y_high = -r, r, -r, r
    plt.xlim(x_left, x_right)
    plt.ylim(y_low, y_high)
    plt.axis('off')
@@ -14,9 +14,10 @@ def figure_dimensions():
    fig.set_size_inches(5, 5)
    return
 
-def draw_star_polygon(n, k, plot_folder_path, mode = "default", repetitions = 1, repetition_contact = "middle"):
+def draw_star_polygon(n, k, plot_folder_path, filename = '', mode = "default", repetitions = 1, repetition_contact = "middle", labels = []):
    def draw(start_angle, radius):
       x, y = make_xy(n, radius = radius, start_angle = start_angle)
+      
       for i in range(n):
          if mode == "shaded":
             d = np.gcd(n, k)
@@ -53,12 +54,24 @@ def draw_star_polygon(n, k, plot_folder_path, mode = "default", repetitions = 1,
          plt.plot([x_int[i], x_int[i-1]], [y_int[i], y_int[i-1]], ls="-", c=c_string)
       return
    
+   def add_labels(start_angle, radius):
+      n_labels = len(labels)
+      angle_increment = 2 * np.pi / n
+      for i in range(n):
+         theta = angle_increment * i
+         if i % (n // n_labels) == 0:
+            plt.annotate(labels[i // (n // n_labels)], (theta, 1.1), xycoords = 'polar', rotation = np.degrees(theta), rotation_mode = 'anchor', verticalalignment = 'center')
+   
    if mode not in ["default", "shaded", "inscribed", "inwards", "outwards", "alternating"]:
       print("Cannot recognise mode")
       return
    if repetition_contact not in ["middle", "intersection"]:
       print("Cannot recognise repetition contact")
       return
+   if len(labels) != 0:
+      if n % len(labels) != 0:
+         print("Number of nodes must be evenly divisible by length of label vector!")
+         return
       
    alpha = (1 - 2*k/n) * np.pi
    inscribed_circle_radius = np.sin(alpha / 2)
@@ -80,16 +93,23 @@ def draw_star_polygon(n, k, plot_folder_path, mode = "default", repetitions = 1,
    if mode == "inscribed":
       circle_x, circle_y = make_xy(10000, radius = inscribed_circle_radius, start_angle = 0)
       plt.plot(circle_x, circle_y, ls="--", c='k')
-      
-   figure_dimensions()
    
-   namestring = "{}_{}".format(n, k)
-   if not mode == "default":
-      namestring += "_{}".format(mode)
-   if repetitions > 1:
-      namestring += "_repeat_{}_contact_{}".format(repetitions, repetition_contact)
-   namestring += ".png"
-   plt.savefig("{}/{}".format(plot_folder_path, namestring), format = 'png', bbox_inches = 'tight')
+   if len(labels) != 0:
+      add_labels(0, 1)
+      
+   if len(labels) == 0:
+      figure_dimensions(1.05)
+   else:
+      figure_dimensions(2.0) # This is a temp fix
+   
+   if filename == '':
+      filename = "{}_{}".format(n, k)
+      if not mode == "default":
+         filename += "_{}".format(mode)
+      if repetitions > 1:
+         filename += "_repeat_{}_contact_{}".format(repetitions, repetition_contact)
+      filename += ".png"
+   plt.savefig("{}/{}".format(plot_folder_path, filename), format = 'png', bbox_inches = 'tight')
    plt.close()
    return
 
