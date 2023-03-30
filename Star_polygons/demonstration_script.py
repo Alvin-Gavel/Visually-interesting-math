@@ -15,7 +15,6 @@ for folder in [main_folder, default_folder, shaded_folder, inscribed_folder, inw
       os.mkdir(folder)
    except FileExistsError:
       pass
-
    
 sp.draw_star_polygons_below(10, default_folder, mode = "default")
 sp.draw_star_polygons_below(10, shaded_folder, mode = "shaded")
@@ -24,28 +23,22 @@ sp.draw_star_polygons_below(10, inwards_folder, mode = "inwards")
 sp.draw_star_polygons_below(10, outwards_folder, mode = "outwards")
 sp.draw_star_polygons_below(10, repetitive_folder, mode = "default", repetitions = 5)
 
-Swedish_cardinal_directions = ['Öster', 'Nordost', 'Norr', 'Nordväst', 'Väster', 'Sydväst', 'Söder', 'Sydost']
-English_cardinal_directions = ['East', 'Northeast', 'North', 'Northwest', 'West', 'Southwest', 'South', 'Southeast']
-Mediterranean_cardinal_directions = ['Levante', 'Bora', 'Tramontana', 'Mistral', 'Ponente', 'Garbino', 'Mezzogiorno', 'Exaloc']
-Alternate_Mediterranean_cardinal_directions = ['Levante', 'Greco', 'Tramontana', 'Maestro', 'Ponente', 'Libeccio', 'Ostro', 'Scirocco']
-Latin_cardinal_directions = ['Subsolanus', 'Caecias', 'Aquilo', 'Septentrio', 'Thrascias', 'Corus', 'Favonius', 'Africus', 'Libonotus', 'Auster', 'Euronotus', 'Vulturnus']
-Greek_cardinal_directions = ['Apeliotes', 'Caecias', 'Boreas', 'Aparctias', 'Thrascias', 'Argestes', 'Zephyrus', 'Lips', 'Libonotus', 'Notos', 'Euronotos', 'Eurus']
+cardinal_directions = {
+'English':                 ['East',    'Northeast', 'North',      'Northwest', 'West',    'Southwest', 'South',       'Southeast'],
+'English_abbrev':          ['E',       'NE',        'N',          'NW',        'W',       'SW',        'S',           'SE'],
+'Swedish':                 ['Öster',   'Nordost',   'Norr',       'Nordväst',  'Väster',  'Sydväst',   'Söder',       'Sydost'],
+'Swedish_abbrev':          ['Ö',       'nö',        'N',          'nv',        'V',       'sv',        'S',           'sö'],
+'Finnish':                 ['Itä',     'Koillinen', 'Pohjoinen',  'Luode',     'Länsi',   'Lounas',    'Etalä',       'Kaakko'],
+'Mediterranean':           ['Levante', 'Bora',      'Tramontana', 'Mistral',   'Ponente', 'Garbino',   'Mezzogiorno', 'Exaloc'],
+'Mediterranean_alternate': ['Levante', 'Greco',     'Tramontana', 'Maestro',   'Ponente', 'Libeccio',  'Ostro',       'Scirocco'],
+'Latin':       ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Thrascias',     'Corus',         'Favonius',  'Africus',       'Libonotus',     'Auster',    'Euronotus',   'Vulturnus'],
+'Greek':       ['Apeliotes',  'Caecias',     'Boreas',      'Aparctias',  'Thrascias',     'Argestes',      'Zephyrus',  'Lips',          'Libonotus',     'Notos',     'Euronotos',   'Eurus'],
+'Frankish':    ['Ostroni',    'Ostnordroni', 'Nordostroni', 'Nordroni',   'Nordvuestroni', 'Vuestnordroni', 'Vuestroni', 'Vuestsundroni', 'Sundvuestroni', 'Sundroni',  'Sundostroni', 'Ostsundroni']}
 
-sp.draw_star_polygon(8, 3, compass_folder, filename = 'Swedish_compass_rose_8_3', mode = "default", labels = Swedish_cardinal_directions)
-sp.draw_star_polygon(8, 2, compass_folder, filename = 'Swedish_compass_rose_8_2', mode = "default", labels = Swedish_cardinal_directions)
-sp.draw_star_polygon(8, 3, compass_folder, filename = 'English_compass_rose_8_3', mode = "default", labels = English_cardinal_directions)
-sp.draw_star_polygon(8, 2, compass_folder, filename = 'English_compass_rose_8_2', mode = "default", labels = English_cardinal_directions)
-sp.draw_star_polygon(8, 3, compass_folder, filename = 'Mediterranean_compass_rose_8_3', mode = "default", labels = Mediterranean_cardinal_directions)
-sp.draw_star_polygon(8, 2, compass_folder, filename = 'Mediterranean_compass_rose_8_2', mode = "default", labels = Mediterranean_cardinal_directions)
-sp.draw_star_polygon(8, 3, compass_folder, filename = 'Alternate_Mediterranean_compass_rose_8_3', mode = "default", labels = Alternate_Mediterranean_cardinal_directions)
-sp.draw_star_polygon(8, 2, compass_folder, filename = 'Alternate_Mediterranean_compass_rose_8_2', mode = "default", labels = Alternate_Mediterranean_cardinal_directions)
-
-sp.draw_star_polygon(12, 2, compass_folder, filename = 'Latin_compass_rose_12_2', mode = "default", labels = Latin_cardinal_directions)
-sp.draw_star_polygon(12, 3, compass_folder, filename = 'Latin_compass_rose_12_3', mode = "default", labels = Latin_cardinal_directions)
-sp.draw_star_polygon(12, 4, compass_folder, filename = 'Latin_compass_rose_12_4', mode = "default", labels = Latin_cardinal_directions)
-sp.draw_star_polygon(12, 5, compass_folder, filename = 'Latin_compass_rose_12_5', mode = "default", labels = Latin_cardinal_directions)
-
-sp.draw_star_polygon(12, 2, compass_folder, filename = 'Greek_compass_rose_12_2', mode = "default", labels = Greek_cardinal_directions)
-sp.draw_star_polygon(12, 3, compass_folder, filename = 'Greek_compass_rose_12_3', mode = "default", labels = Greek_cardinal_directions)
-sp.draw_star_polygon(12, 4, compass_folder, filename = 'Greek_compass_rose_12_4', mode = "default", labels = Greek_cardinal_directions)
-sp.draw_star_polygon(12, 5, compass_folder, filename = 'Greek_compass_rose_12_5', mode = "default", labels = Greek_cardinal_directions)
+for language, directions in cardinal_directions.items():
+   n = len(directions)
+   if n == 8:
+      label_mode = 'horisontal'
+   elif n == 12:
+      label_mode = 'radial'
+   sp.draw_star_polygons_with_fixed_n(n,compass_folder, filename_kernel = '{}'.format(language), mode = "default", labels = directions, label_mode = label_mode)
