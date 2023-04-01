@@ -31,9 +31,10 @@ cardinal_directions = {
 'Finnish':                 ['Itä',     'Koillinen', 'Pohjoinen',  'Luode',     'Länsi',   'Lounas',    'Etelä',       'Kaakko'],
 'Mediterranean':           ['Levante', 'Bora',      'Tramontana', 'Mistral',   'Ponente', 'Garbino',   'Mezzogiorno', 'Exaloc'],
 'Mediterranean_alternate': ['Levante', 'Greco',     'Tramontana', 'Maestro',   'Ponente', 'Libeccio',  'Ostro',       'Scirocco'],
-'Latin':       ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Thrascias',     'Corus',         'Favonius',  'Africus',       'Libonotus',     'Auster',    'Euronotus',   'Vulturnus'],
-'Greek':       ['Apeliotes',  'Caecias',     'Boreas',      'Aparctias',  'Thrascias',     'Argestes',      'Zephyrus',  'Lips',          'Libonotus',     'Notos',     'Euronotos',   'Eurus'],
-'Frankish':    ['Ostroni',    'Ostnordroni', 'Nordostroni', 'Nordroni',   'Nordvuestroni', 'Vuestnordroni', 'Vuestroni', 'Vuestsundroni', 'Sundvuestroni', 'Sundroni',  'Sundostroni', 'Ostsundroni']}
+'Greek':           ['Apeliotes',  'Caecias',     'Boreas',      'Aparctias',  'Thrascias',     'Argestes',      'Zephyrus',  'Lips',          'Libonotus',     'Notos',     'Euronotos',   'Eurus'],
+'Latin':           ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Thrascias',     'Corus',         'Favonius',  'Africus',       'Libonotus',     'Auster',    'Euronotus',   'Vulturnus'],
+'Latin_alterante': ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Circius',       'Corus',         'Favonius',  'Africus',       'Austroafricus', 'Auster',    'Euronotus',   'Vulturnus'],
+'Frankish':        ['Ostroni',    'Ostnordroni', 'Nordostroni', 'Nordroni',   'Nordvuestroni', 'Vuestnordroni', 'Vuestroni', 'Vuestsundroni', 'Sundvuestroni', 'Sundroni',  'Sundostroni', 'Ostsundroni']}
 
 for language, directions in cardinal_directions.items():
    n = len(directions)
