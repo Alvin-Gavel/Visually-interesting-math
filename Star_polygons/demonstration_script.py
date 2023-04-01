@@ -31,7 +31,7 @@ cardinal_directions = {
 'Finnish':                 ['Itä',     'Koillinen', 'Pohjoinen',  'Luode',     'Länsi',   'Lounas',    'Etelä',       'Kaakko'],
 'Mediterranean':           ['Levante', 'Bora',      'Tramontana', 'Mistral',   'Ponente', 'Garbino',   'Mezzogiorno', 'Exaloc'],
 'Mediterranean_alternate': ['Levante', 'Greco',     'Tramontana', 'Maestro',   'Ponente', 'Libeccio',  'Ostro',       'Scirocco'],
-'Greek':           ['Apeliotes',  'Caecias',     'Boreas',      'Aparctias',  'Thrascias',     'Argestes',      'Zephyrus',  'Lips',          'Libonotus',     'Notos',     'Euronotos',   'Eurus'],
+'Greek':           ['Apeliotes',  'Caicias',     'Boreas',      'Aparctias',  'Thrascias',     'Argestes',      'Zephyrus',  'Lips',          'Libonotus',     'Notos',     'Euronotos',   'Eurus'],
 'Latin':           ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Thrascias',     'Corus',         'Favonius',  'Africus',       'Libonotus',     'Auster',    'Euronotus',   'Vulturnus'],
 'Latin_alterante': ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Circius',       'Corus',         'Favonius',  'Africus',       'Austroafricus', 'Auster',    'Euronotus',   'Vulturnus'],
 'Frankish':        ['Ostroni',    'Ostnordroni', 'Nordostroni', 'Nordroni',   'Nordvuestroni', 'Vuestnordroni', 'Vuestroni', 'Vuestsundroni', 'Sundvuestroni', 'Sundroni',  'Sundostroni', 'Ostsundroni']}
