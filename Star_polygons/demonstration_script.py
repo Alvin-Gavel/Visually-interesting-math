@@ -28,7 +28,7 @@ cardinal_directions = {
 'English_abbrev':          ['E',       'NE',        'N',          'NW',        'W',       'SW',        'S',           'SE'],
 'Swedish':                 ['Öster',   'Nordost',   'Norr',       'Nordväst',  'Väster',  'Sydväst',   'Söder',       'Sydost'],
 'Swedish_abbrev':          ['Ö',       'nö',        'N',          'nv',        'V',       'sv',        'S',           'sö'],
-'Finnish':                 ['Itä',     'Koillinen', 'Pohjoinen',  'Luode',     'Länsi',   'Lounas',    'Etalä',       'Kaakko'],
+'Finnish':                 ['Itä',     'Koillinen', 'Pohjoinen',  'Luode',     'Länsi',   'Lounas',    'Etelä',       'Kaakko'],
 'Mediterranean':           ['Levante', 'Bora',      'Tramontana', 'Mistral',   'Ponente', 'Garbino',   'Mezzogiorno', 'Exaloc'],
 'Mediterranean_alternate': ['Levante', 'Greco',     'Tramontana', 'Maestro',   'Ponente', 'Libeccio',  'Ostro',       'Scirocco'],
 'Latin':       ['Subsolanus', 'Caecias',     'Aquilo',      'Septentrio', 'Thrascias',     'Corus',         'Favonius',  'Africus',       'Libonotus',     'Auster',    'Euronotus',   'Vulturnus'],
